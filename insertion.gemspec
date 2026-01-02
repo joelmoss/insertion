@@ -8,14 +8,13 @@ Gem::Specification.new do |spec|
   spec.authors = ['Joel Moss']
   spec.email = ['joel@developwithstyle.com']
 
-  spec.summary = 'TODO: Write a short summary, because RubyGems requires one.'
-  spec.description = 'TODO: Write a longer description or delete this line.'
+  spec.summary = 'PORO fixtures for Rails'
   spec.homepage = 'https://github.com/joelmoss/insertion'
   spec.required_ruby_version = '>= 3.3.0'
 
-  spec.metadata['allowed_push_host'] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/joelmoss/insertion'
+  spec.metadata['changelog_uri'] = 'https://github.com/joelmoss/insertion/releases'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   # Specify which files should be added to the gem when it is released.
