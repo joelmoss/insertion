@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
-require_relative "insertion/version"
-require_relative "insertion/engine"
+require_relative 'insertion/version'
+require_relative 'insertion/engine'
 
 module Insertion
-  module_function def insert(model_name, *, **)
+  autoload :Insert, 'insertion/insert'
+  autoload :BareInsert, 'insertion/bare_insert'
+
+  module_function
+
+  def insert(model_name, *, **)
     model_name = model_name.to_s.classify
 
     if (insert = "#{model_name}Insert".safe_constantize)
@@ -18,7 +23,7 @@ module Insertion
     end
   end
 
-  module_function def build(model_name, *, **)
+  def build(model_name, *, **)
     model_name = model_name.to_s.classify
 
     if (insert = "#{model_name}Insert".safe_constantize)
@@ -31,7 +36,4 @@ module Insertion
       BareInsert.new(model_name.constantize, *, **).build_insert!
     end
   end
-
-  autoload :Insert, 'insertion/insert'
-  autoload :BareInsert, 'insertion/bare_insert'
 end

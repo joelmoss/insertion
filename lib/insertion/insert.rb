@@ -2,8 +2,6 @@
 
 module Insertion
   class Insert
-    attr_reader :attributes
-
     class Error < ::StandardError
       def initialize(message = nil, class_name: nil)
         @class_name = class_name
@@ -24,7 +22,7 @@ module Insertion
     end
 
     def attributes
-      {}
+      @attributes ||= {}
     end
 
     def do_insert!
@@ -52,11 +50,11 @@ module Insertion
 
     private
 
-      def insert(model_name, *, **) = Insertion.insert(model_name, *, **)
-      def build(model_name, *, **) = Insertion.build(model_name, *, **)
+    def insert(model_name, *, **) = Insertion.insert(model_name, *, **)
+    def build(model_name, *, **) = Insertion.build(model_name, *, **)
 
-      def model
-        @model ||= self.class.name.sub(/Insert$/, '').constantize
-      end
+    def model
+      @model ||= self.class.name.sub(/Insert$/, '').constantize
+    end
   end
 end
