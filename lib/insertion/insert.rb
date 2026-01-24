@@ -26,7 +26,7 @@ module Insertion
     end
 
     def do_insert!
-      result = model.insert!(attributes, returning: Arel.sql('*'))
+      result = model.insert!(attributes, returning: Arel.sql('*')) # rubocop:disable Rails/SkipsModelValidations
       record = model.instantiate result.to_a.first
 
       after_insert(record) if respond_to?(:after_insert)
@@ -37,7 +37,7 @@ module Insertion
     def build_insert!
       result = nil
       model.transaction do
-        result = model.insert!(attributes, returning: Arel.sql('*'))
+        result = model.insert!(attributes, returning: Arel.sql('*')) # rubocop:disable Rails/SkipsModelValidations
         raise ActiveRecord::Rollback
       end
 
@@ -50,11 +50,11 @@ module Insertion
 
     private
 
-    def insert(model_name, *, **) = Insertion.insert(model_name, *, **)
-    def build(model_name, *, **) = Insertion.build(model_name, *, **)
+      def insert(model_name, *, **) = Insertion.insert(model_name, *, **)
+      def build(model_name, *, **) = Insertion.build(model_name, *, **)
 
-    def model
-      @model ||= self.class.name.sub(/Insert$/, '').constantize
-    end
+      def model
+        @model ||= self.class.name.sub(/Insert$/, '').constantize
+      end
   end
 end
