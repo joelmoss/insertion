@@ -2,6 +2,12 @@
 
 PORO fixtures for Rails. A simple, fast way to create test data using Plain Old Ruby Objects.
 
+## Why Insertion?
+
+- **Fast**: Uses `insert!` to write directly to the database, bypassing model callbacks and validations
+- **Simple**: Plain Ruby classes with no DSL to learn
+- **Flexible**: Override any attribute at call time
+
 ## Installation
 
 Add to your application's Gemfile:
@@ -95,12 +101,6 @@ class PostInsert < Insertion::Insert
   end
 end
 ```
-
-## Why Insertion?
-
-- **Fast**: Uses `insert!` to write directly to the database, bypassing model callbacks and validations
-- **Simple**: Plain Ruby classes with no DSL to learn
-- **Flexible**: Override any attribute at call time
 
 ## Requirements
 
