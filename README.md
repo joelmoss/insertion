@@ -1,34 +1,111 @@
 # Insertion
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/insertion`. To experiment with that code, run `bin/console` for an interactive prompt.
+PORO fixtures for Rails. A simple, fast way to create test data using Plain Old Ruby Objects.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
-
-```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem 'insertion'
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Then run:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle install
 ```
+
+For convenience, include the Insertion methods in your test setup. For RSpec, add this to your `spec_helper.rb` or `test_helper.rb`:
+
+```ruby
+module ActiveSupport
+  class TestCase
+    include Insertion
+    # ...
+  end
+end
+```
+
+Then you can simply call `insert` and `build` in your tests. But of course, you can also call them directly via `Insertion.insert` and `Insertion.build`.
 
 ## Usage
 
-TODO: Write usage instructions here
+### Basic Usage
 
-## Development
+Create records directly in your tests:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+user = insert(:user, name: 'Joel', email: 'joel@example.com')
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Build a record without persisting (useful for getting default values):
+
+```ruby
+user = build(:user, name: 'Joel')
+```
+
+### Custom Insert Classes
+
+For more control, create custom Insert classes in `app/inserts/`:
+
+```ruby
+# app/inserts/user_insert.rb
+class UserInsert < Insertion::Insert
+  def attributes
+    {
+      name: 'Default Name',
+      email: "user#{SecureRandom.hex(4)}@example.com",
+      **super
+    }
+  end
+
+  def after_insert(record)
+    # Run code after the record is inserted
+  end
+
+  def after_build(record)
+    # Run code after the record is built
+  end
+end
+```
+
+Then use it:
+
+```ruby
+# Uses defaults from UserInsert
+user = insert(:user)
+
+# Override specific attributes
+user = insert(:user, name: 'Custom Name')
+```
+
+### Nested Inserts
+
+Create associated records within your Insert classes:
+
+```ruby
+class PostInsert < Insertion::Insert
+  def attributes
+    {
+      title: 'Default Title',
+      user_id: insert(:user).id,
+      **super
+    }
+  end
+end
+```
+
+## Why Insertion?
+
+- **Fast**: Uses `insert!` to write directly to the database, bypassing model callbacks and validations
+- **Simple**: Plain Ruby classes with no DSL to learn
+- **Flexible**: Override any attribute at call time
+
+## Requirements
+
+- Ruby >= 3.3.0
+- Rails >= 7.2.0
 
 ## Contributing
 
