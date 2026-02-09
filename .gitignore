@@ -9,4 +9,5 @@
 /test/dummy/db/*.sqlite
 /test/dummy/log/*.log
 /test/dummy/tmp/**/*
-.claude/settings.local.json
+/.claude/settings.local.json
+/.vscode/settings.json
