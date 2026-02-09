@@ -1,0 +1,6 @@
+one:
+  title: Fixture Post
+  body: Lorem ipsum dolor sit amet
+  user_id: 1
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

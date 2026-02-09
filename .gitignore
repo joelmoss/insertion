@@ -7,7 +7,7 @@
 /spec/reports/
 /tmp/
 /test/dummy/db/*.sqlite
-/test/dummy/log/*.log
+/test/dummy/log/*.log*
 /test/dummy/tmp/**/*
 /.claude/settings.local.json
 /.vscode/settings.json

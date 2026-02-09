@@ -1,0 +1,6 @@
+one:
+  name: Fixture User
+  email: fixture@example.com
+  age: 30
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

@@ -23,4 +23,6 @@ gem 'minitest-focus'
 gem 'minitest-spec-rails'
 
 gem 'appraisal'
+gem 'benchmark-ips'
+gem 'factory_bot_rails'
 gem 'sqlite3'
